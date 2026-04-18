@@ -91,6 +91,14 @@ The entire extension is two files: `content.js` and `content.css`.
 
 ---
 
+## Trademark notice
+
+"Claude" is a trademark of Anthropic, PBC. This extension is not affiliated with, endorsed by, or sponsored by Anthropic.
+
+## Privacy
+
+No data leaves your browser. See [PRIVACY.md](PRIVACY.md) for details.
+
 ## License
 
-MIT — do whatever you want with it.
+MIT © 2026 Pedro Hernández

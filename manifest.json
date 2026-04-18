@@ -1,10 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Claude Usage Budget",
-  "version": "0.5.0",
-  "description": "Visualiza tu presupuesto de uso de Claude por hora (sesión) y por día (semanal), con proyección de consumo en tiempo real.",
+  "name": "Usage Budget for Claude",
+  "version": "0.5.1",
+  "description": "Visualize your Claude usage budget per hour and per day, with real-time consumption projection. Unofficial — not affiliated with Anthropic.",
+  "minimum_chrome_version": "114",
   "permissions": ["storage"],
-  "host_permissions": ["https://claude.ai/*"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'; base-uri 'self'"
+  },
   "content_scripts": [
     {
       "matches": ["https://claude.ai/settings*"],

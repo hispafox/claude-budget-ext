@@ -100,7 +100,7 @@
     // Detect resets
     const cleaned = [];
     for (let i = 0; i < snapshots.length; i++) {
-      if (i > 0 && snapshots[i].pct < snapshots[i - 1].pct - 2) cleaned.length = 0;
+      if (i > 0 && snapshots[i].pct < snapshots[i - 1].pct - 20) cleaned.length = 0;
       cleaned.push(snapshots[i]);
     }
     try { await chrome.storage.local.set({ [storageKey]: cleaned }); } catch (e) {}
@@ -273,7 +273,13 @@
       const lbl = document.createElement("div");
       const isActive = i === activeIdx;
       lbl.style.cssText = `width:${s.widthPct}%;text-align:center;${isActive ? "font-weight:700;" : ""}`;
-      lbl.innerHTML = `<span class="cub-time${isActive ? " cub-time-active" : ""}">${s.label}</span><br><span class="cub-budget">${s.budget}</span>`;
+      const timeSpan = document.createElement("span");
+      timeSpan.className = "cub-time" + (isActive ? " cub-time-active" : "");
+      timeSpan.textContent = s.label;
+      const budgetSpan = document.createElement("span");
+      budgetSpan.className = "cub-budget";
+      budgetSpan.textContent = s.budget;
+      lbl.append(timeSpan, document.createElement("br"), budgetSpan);
       labelsEl.appendChild(lbl);
     });
     bar.parentElement.insertBefore(labelsEl, bar.nextSibling);
@@ -290,11 +296,17 @@
       const chipsEl = document.createElement("div");
       chipsEl.className = `${OVERLAY_CLASS} cub-projection`;
       chipsEl.style.cssText = "margin-top:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;";
-      chipsEl.innerHTML = `
-        <span class="cub-rate-chip ${danger ? "cub-rate-over" : "cub-rate-ok"}">${danger ? "🔥" : "✅"} Ritmo: ${rateDisplay}%/${rateUnit}</span>
-        <span class="cub-rate-chip ${danger ? "cub-rate-over" : "cub-rate-muted"}">${projText}</span>
-        <span class="cub-rate-confidence" title="${rateInfo.dataPoints} snapshots">${ci} ${cl}</span>
-      `;
+      const rateChip = document.createElement("span");
+      rateChip.className = `cub-rate-chip ${danger ? "cub-rate-over" : "cub-rate-ok"}`;
+      rateChip.textContent = `${danger ? "🔥" : "✅"} Ritmo: ${rateDisplay}%/${rateUnit}`;
+      const projChip = document.createElement("span");
+      projChip.className = `cub-rate-chip ${danger ? "cub-rate-over" : "cub-rate-muted"}`;
+      projChip.textContent = projText;
+      const confChip = document.createElement("span");
+      confChip.className = "cub-rate-confidence";
+      confChip.title = `${rateInfo.dataPoints} snapshots`;
+      confChip.textContent = `${ci} ${cl}`;
+      chipsEl.append(rateChip, projChip, confChip);
       labelsEl.after(chipsEl);
     }
 
@@ -302,10 +314,16 @@
     const badge = document.createElement("div");
     badge.className = OVERLAY_CLASS;
     badge.style.cssText = "position:absolute;top:-26px;right:0;z-index:10;pointer-events:none;";
-    const dangerSuffix = danger && projectedLabel
-      ? `<span class="cub-badge-danger-day">${projectedLabel}</span>`
-      : "";
-    badge.innerHTML = `<span class="cub-badge">${badgeText}${dangerSuffix}</span>`;
+    const badgeSpan = document.createElement("span");
+    badgeSpan.className = "cub-badge";
+    badgeSpan.textContent = badgeText;
+    if (danger && projectedLabel) {
+      const dangerSpan = document.createElement("span");
+      dangerSpan.className = "cub-badge-danger-day";
+      dangerSpan.textContent = projectedLabel;
+      badgeSpan.appendChild(dangerSpan);
+    }
+    badge.appendChild(badgeSpan);
     bar.parentElement.appendChild(badge);
   }
 
@@ -488,7 +506,11 @@
         }
       }
     }
-    setTimeout(run, POLL_INTERVAL);
+    if (document.hidden) {
+      document.addEventListener("visibilitychange", () => { if (!document.hidden) run(); }, { once: true });
+    } else {
+      setTimeout(run, POLL_INTERVAL);
+    }
   }
 
   if (document.readyState === "complete") setTimeout(run, 500);
