@@ -1,0 +1,166 @@
+/* Claude Usage Budget — v0.4.0 */
+
+.cub-time {
+  font-size: 9.5px;
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  font-weight: 600;
+  color: #3b82f6;
+  white-space: nowrap;
+  line-height: 1.2;
+  opacity: 0.9;
+}
+
+.cub-time-active {
+  color: #1d4ed8;
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cub-budget {
+  font-size: 8.5px;
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  font-weight: 500;
+  color: #6b7280;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.cub-badge {
+  font-size: 11px;
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  font-weight: 600;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  white-space: nowrap;
+}
+
+.cub-badge-danger-day {
+  color: #dc2626;
+  margin-left: 5px;
+  font-weight: 700;
+}
+
+/* Rate chips */
+.cub-rate-chip {
+  font-size: 11px;
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.cub-rate-ok {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.08);
+  border: 1px solid rgba(22, 163, 74, 0.15);
+}
+
+.cub-rate-over {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+  border: 1px solid rgba(220, 38, 38, 0.15);
+}
+
+.cub-rate-muted {
+  color: #6b7280;
+  background: rgba(107, 114, 128, 0.06);
+  border: 1px solid rgba(107, 114, 128, 0.12);
+}
+
+.cub-rate-confidence {
+  font-size: 10px;
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  color: #9ca3af;
+  white-space: nowrap;
+}
+
+/* Projection marker */
+.cub-marker {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 3px;
+  border-radius: 2px;
+  z-index: 20;
+  pointer-events: none;
+  transition: left 0.6s ease;
+}
+
+.cub-marker-ok {
+  background: #16a34a;
+  box-shadow: 0 0 4px rgba(22, 163, 74, 0.4);
+}
+
+.cub-marker-danger {
+  background: #dc2626;
+  box-shadow: 0 0 6px rgba(220, 38, 38, 0.5);
+}
+
+.cub-marker-label {
+  position: absolute;
+  bottom: calc(100% + 3px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8.5px;
+  font-family: "SF Mono", "Menlo", "Consolas", monospace;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 1px 4px;
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.cub-marker-ok .cub-marker-label {
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.1);
+}
+
+.cub-marker-danger .cub-marker-label {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.1);
+}
+
+/* Hatched projection zone */
+.cub-projected-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.cub-projected-fill-ok {
+  background: repeating-linear-gradient(
+    -45deg, rgba(22, 163, 74, 0.08), rgba(22, 163, 74, 0.08) 3px,
+    transparent 3px, transparent 6px
+  );
+}
+
+.cub-projected-fill-danger {
+  background: repeating-linear-gradient(
+    -45deg, rgba(220, 38, 38, 0.12), rgba(220, 38, 38, 0.12) 3px,
+    transparent 3px, transparent 6px
+  );
+}
+
+/* Animations */
+.cub-overlay { animation: cubFadeIn 0.3s ease-out; }
+.cub-projection { animation: cubSlideIn 0.4s ease-out; }
+
+@keyframes cubFadeIn {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes cubSlideIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
